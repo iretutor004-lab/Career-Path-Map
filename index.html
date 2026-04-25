@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Career Path Map — แผนที่สู่ความสำเร็จ เกมสำรวจเส้นทางอาชีพด้าน Cybersecurity">
+    <title>Career Path Map | แผนที่สู่ความสำเร็จ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Kanit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="app">
+        <!-- ================= WELCOME SCREEN ================= -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-container">
+                <div class="logo-container">
+                    <div class="shield-wrapper">
+                        <div class="shield-icon">🗺️</div>
+                        <div class="shield-ring"></div>
+                        <div class="shield-ring ring-2"></div>
+                    </div>
+                    <h1 class="game-title glitch-text" data-text="CAREER PATH MAP">CAREER PATH MAP</h1>
+                    <p class="subtitle-thai">แผนที่สู่ความสำเร็จ</p>
+                </div>
+                <div class="welcome-divider"></div>
+                <p class="subtitle">สำรวจเส้นทางอาชีพด้าน Cybersecurity<br>เลือกอาชีพที่สนใจ สะสม Certifications และทักษะ<br>เพื่อพิชิตเป้าหมายในสายงานที่คุณเลือก!</p>
+
+                <div class="welcome-badges">
+                    <div class="badge"><span class="badge-icon">🗺️</span><span>Branching Path</span></div>
+                    <div class="badge"><span class="badge-icon">📜</span><span>5 Careers</span></div>
+                    <div class="badge"><span class="badge-icon">🏆</span><span>Certifications</span></div>
+                </div>
+
+                <div class="how-to-play">
+                    <h3>📖 วิธีการเล่น</h3>
+                    <div class="rule-grid">
+                        <div class="rule-item">
+                            <div class="rule-icon cyan-glow">🎯</div>
+                            <div>
+                                <strong>เลือกอาชีพ</strong>
+                                <p>เลือกสายอาชีพ Cybersecurity ที่คุณสนใจจาก 5 สายงาน</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-icon gold-glow">📜</div>
+                            <div>
+                                <strong>สะสม Certs & Skills</strong>
+                                <p>เลือกเก็บใบรับรองและทักษะให้ครบตามเป้าหมายในแต่ละ Stage</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-icon green-glow">🏆</div>
+                            <div>
+                                <strong>พิชิตเส้นทาง</strong>
+                                <p>สะสมให้ครบทุก Stage เพื่อพิชิตอาชีพที่คุณเลือก!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-start" class="cyber-btn primary pulse-btn">
+                    <span>🗺️ เริ่มสำรวจเส้นทาง</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= CAREER SELECT SCREEN ================= -->
+        <div id="career-screen" class="screen">
+            <header class="career-header">
+                <h2 class="section-heading">🎯 เลือกเส้นทางอาชีพของคุณ</h2>
+                <p class="section-sub">เลือกสายอาชีพ Cybersecurity ที่คุณสนใจ</p>
+                <button id="btn-back-welcome" class="hud-exit-btn" title="กลับหน้าหลัก">✕</button>
+            </header>
+            <div class="career-grid" id="career-grid">
+                <!-- Career cards injected by JS -->
+            </div>
+        </div>
+
+        <!-- ================= GAME SCREEN ================= -->
+        <div id="game-screen" class="screen">
+            <header id="game-hud">
+                <div class="hud-group">
+                    <div class="hud-stat">
+                        <span class="hud-label">📜 STAGE</span>
+                        <span class="hud-value" id="hud-stage">1/3</span>
+                    </div>
+                </div>
+                <div class="hud-group center-group">
+                    <div class="hud-stat">
+                        <span class="hud-label">⭐ COLLECTED</span>
+                        <span class="hud-value score-value" id="hud-collected">0</span>
+                    </div>
+                    <div class="hud-stat">
+                        <span class="hud-label">🎯 REQUIRED</span>
+                        <span class="hud-value ethics-value" id="hud-required">3</span>
+                    </div>
+                </div>
+                <div class="hud-group">
+                    <button id="btn-exit-game" class="hud-exit-btn" title="ออกจากเกม">✕</button>
+                </div>
+            </header>
+
+            <!-- Progress Bar -->
+            <div class="timer-bar-wrapper">
+                <div class="timer-bar" id="progress-bar" style="width:0%"></div>
+            </div>
+
+            <main id="game-content">
+                <!-- Career Info Banner -->
+                <div class="career-banner" id="career-banner">
+                    <span class="career-banner-icon" id="banner-icon">🔓</span>
+                    <div>
+                        <div class="career-banner-title" id="banner-title">Penetration Tester</div>
+                        <div class="career-banner-sub" id="banner-sub">นักทดสอบเจาะระบบ</div>
+                    </div>
+                </div>
+
+                <!-- Stage Header -->
+                <div class="case-header">
+                    <div class="case-tag" id="stage-tag">STAGE 1</div>
+                    <h2 class="case-title" id="stage-title">🎓 Foundation — พื้นฐาน</h2>
+                    <p class="stage-desc" id="stage-desc">สร้างรากฐานความรู้</p>
+                </div>
+
+                <!-- Items Grid -->
+                <div class="items-section">
+                    <h3 class="choices-title">📜 เลือกเก็บ Certifications & Skills (เลือก <span id="req-count">3</span> จาก <span id="total-count">4</span>)</h3>
+                    <div class="items-container" id="items-container">
+                        <!-- Items injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Confirm Button -->
+                <div class="confirm-section">
+                    <button id="btn-confirm" class="cyber-btn primary" disabled>
+                        <span id="btn-confirm-text">✅ ยืนยันการเลือก (0/3)</span>
+                    </button>
+                </div>
+            </main>
+
+            <!-- Stage Complete Overlay -->
+            <div id="stage-overlay" class="verdict-overlay hidden">
+                <div class="verdict-card" id="stage-card">
+                    <div class="verdict-icon" id="stage-complete-icon">🎉</div>
+                    <h3 id="stage-complete-title" class="best">Stage Complete!</h3>
+                    <p class="stage-complete-sub" id="stage-complete-sub">คุณผ่าน Stage นี้แล้ว!</p>
+
+                    <div class="collected-summary" id="collected-summary">
+                        <!-- Collected items listed here -->
+                    </div>
+
+                    <button id="btn-next-stage" class="cyber-btn primary">
+                        <span id="btn-next-text">➡️ Stage ถัดไป</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= RESULT SCREEN ================= -->
+        <div id="result-screen" class="screen">
+            <div class="result-container">
+                <div class="result-icon-wrapper">
+                    <div class="result-big-icon" id="result-icon">🏆</div>
+                </div>
+                <h2 id="result-title" class="result-title">CAREER ACHIEVED!</h2>
+                <p id="result-subtitle" class="result-subtitle">คุณพิชิตเส้นทางอาชีพสำเร็จ!</p>
+
+                <div class="result-career-card" id="result-career-card">
+                    <div class="rcc-icon" id="rcc-icon">🔓</div>
+                    <div class="rcc-title" id="rcc-title">Penetration Tester</div>
+                    <div class="rcc-subtitle" id="rcc-subtitle">นักทดสอบเจาะระบบ</div>
+                    <div class="rcc-salary" id="rcc-salary">💰 60,000 - 200,000+ บาท/เดือน</div>
+                    <div class="rcc-demand" id="rcc-demand">📈 ความต้องการ: สูงมาก</div>
+                </div>
+
+                <div class="result-stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">📜</span>
+                        <span class="stat-value" id="final-certs">0</span>
+                        <span class="stat-label">Certifications</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">💻</span>
+                        <span class="stat-value" id="final-skills">0</span>
+                        <span class="stat-label">Skills</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-value" id="final-total">0</span>
+                        <span class="stat-label">Total Collected</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🏆</span>
+                        <span class="stat-value" id="final-stages">0/3</span>
+                        <span class="stat-label">Stages Cleared</span>
+                    </div>
+                </div>
+
+                <!-- Collected Items List -->
+                <div class="knowledge-box" id="all-collected-box">
+                    <h3>📋 สิ่งที่คุณสะสมได้</h3>
+                    <div class="knowledge-items" id="all-collected-items">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Law & Ethics -->
+                <div class="knowledge-box law-ethics-box">
+                    <h3>⚖️ กฎหมายและจริยธรรมในอาชีพนี้</h3>
+                    <div class="knowledge-items">
+                        <div class="knowledge-item">
+                            <span class="k-icon">📜</span>
+                            <div>
+                                <strong>กฎหมายที่เกี่ยวข้อง</strong>
+                                <p id="result-law">-</p>
+                            </div>
+                        </div>
+                        <div class="knowledge-item">
+                            <span class="k-icon">⚖️</span>
+                            <div>
+                                <strong>จริยธรรมวิชาชีพ</strong>
+                                <p id="result-ethics">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button id="btn-other-career" class="cyber-btn primary">
+                        <span>🗺️ สำรวจอาชีพอื่น</span>
+                    </button>
+                    <button id="btn-restart" class="cyber-btn secondary">
+                        <span>🔄 เล่นอีกครั้ง</span>
+                    </button>
+                    <button id="btn-home" class="cyber-btn secondary">
+                        <span>🏠 กลับหน้าหลัก</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
